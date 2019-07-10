@@ -1,13 +1,5 @@
 const db = require('../data/dbConfig.js');
 
-module.exports = {
-  get,
-  getById,
-  insert,
-  update,
-  remove,
-};
-
 function get() {
   return db('posts');
 }
@@ -21,15 +13,14 @@ function getById(id) {
 function insert(post) {
   return db('posts')
     .insert(post)
-    .then(ids => {
-      return getById(ids[0]);
-    });
+    .then(ids => getById(ids[0]));
 }
 
 function update(id, changes) {
   return db('posts')
     .where({ id })
-    .update(changes);
+    .update(changes)
+    .catch(error => console.log(error));
 }
 
 function remove(id) {
@@ -37,3 +28,11 @@ function remove(id) {
     .where('id', id)
     .del();
 }
+
+module.exports = {
+  get,
+  getById,
+  insert,
+  update,
+  remove,
+};
